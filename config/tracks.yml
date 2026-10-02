@@ -1,0 +1,35 @@
+# ═══════════════════════════════════════════════════════════════
+#  LuckPerms tracks
+#
+#  A track is an ordered promotion path. Separating staff from donor
+#  is the important structural choice: they are orthogonal axes. A
+#  moderator who buys MVP should not lose moderator powers, and a
+#  donor promoted to helper should keep their donor perks.
+# ═══════════════════════════════════════════════════════════════
+
+tracks:
+  # Purchasable tier. Promotion here never touches staff groups.
+  donor:
+    groups:
+      - vip
+      - vip-plus
+      - mvp
+      - mvp-plus
+      - elite
+
+  # Staff tier. Earned, not bought.
+  staff:
+    groups:
+      - trial-helper
+      - helper
+      - moderator
+      - senior-moderator
+      - administrator
+
+  # Playtime-based, applied automatically.
+  veterancy:
+    groups:
+      - newcomer
+      - regular
+      - veteran
+      - legend
