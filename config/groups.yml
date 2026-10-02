@@ -1,0 +1,185 @@
+# ═══════════════════════════════════════════════════════════════
+#  Group definitions and inheritance
+#
+#  Weight controls prefix display order and, critically, which meta
+#  value wins when two groups define the same key. Donor and staff
+#  weights are kept in separate bands (100s vs 1000s) so a staff
+#  prefix always outranks a donor prefix without any special casing.
+# ═══════════════════════════════════════════════════════════════
+
+groups:
+  # ── Base ─────────────────────────────────────────────────────
+  default:
+    weight: 0
+    display-name: 'Member'
+    prefix: '&7'
+    permissions:
+      - 'essentials.help'
+      - 'essentials.spawn'
+      - 'essentials.list'
+      - 'essentials.msg'
+      - 'essentials.tpa'
+      - 'essentials.tpaccept'
+      - 'essentials.tpdeny'
+      - 'chronos.claim'
+      - 'hypereco.balance'
+      - 'hypereco.pay'
+    meta:
+      homes: '1'
+      max-plots: '1'
+
+  # ── Donor band (weights 100-500) ─────────────────────────────
+  vip:
+    weight: 100
+    display-name: 'VIP'
+    prefix: '&a[VIP] '
+    parent: default
+    permissions:
+      - 'essentials.kit.vip'
+      - 'essentials.nick'
+      - 'essentials.back'
+      - 'essentials.hat'
+    meta:
+      homes: '3'
+      max-plots: '2'
+      sell-multiplier: '1.10'
+
+  vip-plus:
+    weight: 150
+    display-name: 'VIP+'
+    prefix: '&a[VIP&2+&a] '
+    parent: vip
+    permissions:
+      - 'essentials.fly.safelogin'
+      - 'essentials.workbench'
+    meta:
+      homes: '5'
+      max-plots: '3'
+      sell-multiplier: '1.15'
+
+  mvp:
+    weight: 200
+    display-name: 'MVP'
+    prefix: '&b[MVP] '
+    parent: vip-plus
+    permissions:
+      - 'essentials.kit.mvp'
+      - 'essentials.enderchest'
+      - 'essentials.feed'
+    meta:
+      homes: '8'
+      max-plots: '4'
+      sell-multiplier: '1.25'
+
+  mvp-plus:
+    weight: 250
+    display-name: 'MVP+'
+    prefix: '&b[MVP&3+&b] '
+    parent: mvp
+    permissions:
+      - 'essentials.fly'
+      - 'essentials.heal'
+    meta:
+      homes: '12'
+      max-plots: '5'
+      sell-multiplier: '1.35'
+
+  elite:
+    weight: 300
+    display-name: 'Elite'
+    prefix: '&6[&e&lELITE&6] '
+    parent: mvp-plus
+    permissions:
+      - 'essentials.kit.elite'
+      - 'essentials.god'
+      - 'essentials.speed'
+    meta:
+      homes: '20'
+      max-plots: '8'
+      sell-multiplier: '1.50'
+
+  # ── Veterancy band (weights 10-60), playtime driven ──────────
+  newcomer:
+    weight: 10
+    display-name: 'Newcomer'
+    parent: default
+
+  regular:
+    weight: 20
+    display-name: 'Regular'
+    parent: default
+    permissions:
+      - 'essentials.sethome.multiple.regular'
+
+  veteran:
+    weight: 40
+    display-name: 'Veteran'
+    prefix: '&3[V] '
+    parent: regular
+    permissions:
+      - 'essentials.kit.veteran'
+
+  legend:
+    weight: 60
+    display-name: 'Legend'
+    prefix: '&5[L] '
+    parent: veteran
+
+  # ── Staff band (weights 1000+) ───────────────────────────────
+  trial-helper:
+    weight: 1000
+    display-name: 'Trial Helper'
+    prefix: '&9[Trial] '
+    parent: default
+    permissions:
+      - 'essentials.mute'
+      - 'essentials.kick'
+      - 'essentials.tempban'
+      - 'sentinel.admin'
+    # Context-limited: trial staff hold powers only where they are
+    # being supervised, not across the whole network.
+    contexts:
+      server: ['survival-01']
+
+  helper:
+    weight: 1100
+    display-name: 'Helper'
+    prefix: '&9[Helper] '
+    parent: trial-helper
+    permissions:
+      - 'essentials.ban'
+      - 'essentials.vanish'
+      - 'celestial.admin'
+    contexts: {}
+
+  moderator:
+    weight: 1200
+    display-name: 'Moderator'
+    prefix: '&2[Mod] '
+    parent: helper
+    permissions:
+      - 'essentials.banip'
+      - 'essentials.gamemode'
+      - 'essentials.tp'
+      - 'worldguard.region.bypass.*'
+      - 'voiddrop.admin'
+      - 'aether.admin'
+
+  senior-moderator:
+    weight: 1300
+    display-name: 'Senior Moderator'
+    prefix: '&2[SrMod] '
+    parent: moderator
+    permissions:
+      - 'luckperms.user.promote'
+      - 'luckperms.user.demote'
+      - 'hypereco.admin'
+      - 'chronos.admin'
+
+  administrator:
+    weight: 2000
+    display-name: 'Administrator'
+    prefix: '&c[Admin] '
+    parent: senior-moderator
+    permissions:
+      - '*'
