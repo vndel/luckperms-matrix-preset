@@ -1,0 +1,55 @@
+# ═══════════════════════════════════════════════════════════════
+#  Contextual permission nodes
+#
+#  Context is what makes one permission database workable across a
+#  whole network. Without it you need a separate LuckPerms install
+#  per server, and a player's rank stops following them.
+#
+#  Resolution order: more specific context wins. A node scoped to
+#  server=prison-01 overrides the same node scoped to world=*.
+# ═══════════════════════════════════════════════════════════════
+
+contexts:
+  # Creative-only powers, granted nowhere else.
+  creative-build:
+    permission: 'worldedit.*'
+    value: true
+    context:
+      server: 'creative-01'
+      world: 'creative_plots'
+
+  # Flight is fine in the lobby and creative, never in survival PvP.
+  lobby-flight:
+    permission: 'essentials.fly'
+    value: true
+    context:
+      server: ['lobby-01', 'lobby-02', 'creative-01']
+
+  survival-no-flight:
+    permission: 'essentials.fly'
+    value: false
+    context:
+      server: 'survival-01'
+
+  # Prison sell multipliers must not leak into survival, where the
+  # economy is balanced differently.
+  prison-sell:
+    permission: 'prison.sellall'
+    value: true
+    context:
+      server: 'prison-01'
+
+  # PvP arena: combat tag bypass disabled even for staff, so arena
+  # fights cannot be escaped by a moderator.
+  arena-no-bypass:
+    permission: 'celestial.bypass'
+    value: false
+    context:
+      world: 'pvp_arena'
+
+  # Skyblock island commands are meaningless elsewhere.
+  skyblock-island:
+    permission: 'skyblock.island.*'
+    value: true
+    context:
+      server: 'skyblock-01'
